@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Response Check</title>
+</head>
+
+<body>
+    <h1>All Reponses</h1>
+    <p id="result">Fetching data...</p>
+    <pre id="data"></pre>
+    <div id="qcm-container"></div>
+
+    <script>
+fetch('http://qcm.test/api.php?action=get_reponses')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
+
+
+ 
+    </script>
+</body>
+
+</html>
