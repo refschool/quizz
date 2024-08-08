@@ -22,9 +22,9 @@
 
     <script>
         function displayQCM(jsonData) {
-            let questions = JSON.parse(jsonData);
-            let qcmHtml = '<form action="http://qcm.test/qcm.php" method="POST" id="qcm">';
-            questions.forEach(questionObj => {
+
+            let qcmHtml = '<form action="http://qcm.test/api.php?action=send_reponses_user" method="POST" id="qcm">';
+            jsonData.forEach(questionObj => {
                 const questionNumber = Object.keys(questionObj)[0];
                 const question = questionObj[questionNumber];
 
@@ -48,11 +48,11 @@
             `;
                 });
                 qcmHtml += `<input type="hidden" id="question_type" value="${types}">`
-                qcmHtml += '<button type="submit" class="btn btn-primary mb3" id="btn"  disabled> Valider </button>';
                 qcmHtml += '</div>';
             });
 
-           
+
+            qcmHtml += '<button type="submit" class="btn btn-primary mb3" id="btn"  disabled> Valider </button>';
             qcmHtml += '</form>';
 
             return qcmHtml;
@@ -62,11 +62,9 @@
             .then(response => response.json())
             .then(data => {
                 const result = document.getElementById('result');
-                const dataElement = document.getElementById('data');
 
                 // Vider les éléments existants
                 result.innerHTML = '';
-                dataElement.innerHTML = '';
 
                 // Traitement objet
                 if (typeof data === 'object' && data !== null) {
@@ -75,8 +73,55 @@
 
                     // Affiche qcm
                     const qcmContainer = document.getElementById('qcm-container');
-                    qcmContainer.innerHTML = displayQCM(data.reference);
-                } else {
+
+                    let jsonData = JSON.parse(data.reference);
+                    qcmContainer.innerHTML = displayQCM(jsonData);
+                    let questionType = document.getElementById('question_type').value;
+                    let btn = document.getElementById('btn');
+
+                    // gere type de question
+                    if (questionType === 'single' || questionType === 'multi') {
+                        const qcmForm = document.getElementById('qcm');
+
+                        qcmForm.addEventListener('change', function (e) {
+                            // Si objet checkbox
+                            if (e.target.type === 'checkbox') {
+                                
+                                let questionDiv = e.target.closest('.question');
+
+                                // type de question
+                                let questionType = questionDiv.querySelector('#question_type').value;
+
+                                // Si type de question simple
+                                if (questionType === 'single') {
+                                    // Décheck les autres checkbox
+                                    const checkboxes = questionDiv.querySelectorAll('input[type="checkbox"]');
+                                    checkboxes.forEach(function (checkbox) {
+                                        if (checkbox !== e.target) {
+                                            checkbox.checked = false;
+                                        }
+                                    });
+                                }
+
+                                // Vérifier si toutes les questions ont au moins une réponse
+                                const allQuestions = this.querySelectorAll('.question');
+                                let allQuestionsAnswered = false;
+
+                                allQuestions.forEach(function (question) {
+                                    let checkedBoxes = question.querySelectorAll('input[type="checkbox"]:checked');
+                                    if (checkedBoxes.length === 0) {
+                                        allQuestionsAnswered = true;
+                                    }
+                                });
+
+
+                                let submitButton = this.querySelector('button[type="submit"]');
+                                submitButton.disabled = allQuestionsAnswered;
+                            }
+                        });
+                    }
+                }
+                else {
                     result.textContent = 'Le format de la réponse est inattendu.';
                 }
             })
@@ -85,31 +130,6 @@
                 console.error('Erreur:', error);
             });
 
-            
-        let questionType = document.getElementById('question_type').value;
-        let btn = document.getElementById('btn');
-
-
-        // reset checked
-        if (questionType === 'single' || questionType === 'multi') {
-            let form = document.getElementById('qcm');
-            let previousId = null;
-
-            form.addEventListener('change', function (e) {
-                e.preventDefault();
-                let id = e.target.getAttribute('id');
-
-                if (!previousId) {
-                    btn.disabled = false; // enable button at first touch
-                }
-
-                if (questionType === 'single' && previousId) {
-                    document.getElementById(previousId).checked = false;
-                }
-
-                previousId = id;
-            });
-        }
     </script>
 </body>
 
