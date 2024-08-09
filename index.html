@@ -23,7 +23,7 @@
     <script>
         function displayQCM(jsonData) {
 
-            let qcmHtml = '<form action="http://qcm.test/api.php?action=send_reponses_user" method="POST" id="qcm">';
+            let qcmHtml = '<form action="http://qcm.test/api.php?action=send_reponses_users" method="POST" id="qcm">';
             jsonData.forEach(questionObj => {
                 const questionNumber = Object.keys(questionObj)[0];
                 const question = questionObj[questionNumber];
@@ -58,7 +58,7 @@
             return qcmHtml;
         }
 
-        fetch('http://qcm.test/api.php?action=get_questions')
+        fetch('http://qcm.test/api.php?action=get_questions&id=14')
             .then(response => response.json())
             .then(data => {
                 const result = document.getElementById('result');
