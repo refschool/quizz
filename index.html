@@ -30,8 +30,8 @@
                 const questionNumber = Object.keys(questionObj)[0];
                 const question = questionObj[questionNumber];
 
-
                 const types = question.type
+
 
                 qcmHtml += `
             <div class="question">
@@ -60,17 +60,46 @@
             return qcmHtml;
         }
 
-
         function valider(){
             let divs = document.getElementsByClassName('question')
             Array.from(divs).forEach(div => {
+                // pour chaque question
+                // liste checkboxes
                 let checkboxes = div.querySelectorAll('input[type="checkbox"]')
+                //pour chaque checkbox
                 checkboxes.forEach(checkbox => {
+                    checkbox.disabled = true
                     checkbox.parentElement.classList.add('alert','alert-success')
+                            // Si bonne réponse
+
+                            // Si mauvaise réponse
+
                 })
             })
+            
         }
 
+        function desactiverRenommerBouton(e){
+            if (e.target.type === 'submit'){
+                e.preventDefault()
+                // Desactiver bouton valider
+                btn.disabled = true
+                // Renommer Continuer
+                btn.innerHTML = 'Continuer'
+                valider()
+            }
+        }
+
+        function activeCheckboxUnique(laQuestion, dontEvenement){
+        // Décheck les autres checkbox
+            const checkboxes = laQuestion.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(function (checkbox) {
+                if (checkbox !== dontEvenement) {
+                    checkbox.checked = false;
+                }
+            });
+        }
+        
         fetch('http://qcm.test/api.php?action=get_questions&id=14')
             .then(response => response.json())
             .then(data => {
@@ -98,24 +127,20 @@
                     if (questionType === 'single' || questionType === 'multi') {
 
                         qcmForm.addEventListener('change', function (e) {
+                            //function xxxx
                             // Si objet checkbox
                             if (e.target.type === 'checkbox') {
                                 
-                                let questionDiv = e.target.closest('.question');
+                                let laQuestion = e.target.closest('.question');
 
                                 // type de question
-                                let questionType = questionDiv.querySelector('#question_type').value;
+                                let questionType = laQuestion.querySelector('#question_type').value;
 
                                 // Si type de question simple
                                 if (questionType === 'single') {
-                                    // Décheck les autres checkbox
-                                    const checkboxes = questionDiv.querySelectorAll('input[type="checkbox"]');
-                                    checkboxes.forEach(function (checkbox) {
-                                        if (checkbox !== e.target) {
-                                            checkbox.checked = false;
-                                        }
-                                    });
+                                    activeCheckboxUnique(laQuestion, e.target)
                                 }
+
 
                                 // Vérifier si toutes les questions ont au moins une réponse
                                 const allQuestions = this.querySelectorAll('.question');
@@ -128,33 +153,14 @@
                                     }
                                 });
 
-
-                                let submitButton = this.querySelector('button[type="submit"]');
-                                submitButton.disabled = allQuestionsAnswered;
+                                btn.disabled = allQuestionsAnswered;
                             }
 
-                            // si objet button 
-                 
-                            // event clique bouton
-                                //desactive bouton valider
-                                // renomme Continuer
-                            // pour chaque question
-                                //pour chaque checkbox
-                                    // Si bonne réponse
-                                        
-                                    // Si mauvaise réponse
-    
-                                    // Si pas cocher désactive
                         });
-
-                        
                     }
                     qcmForm.addEventListener('click', function(e){
-                            if (e.target.type === 'submit'){
-                                e.preventDefault()
-                                valider()
-                            }
-                        })
+                        desactiverRenommerBouton(e)
+                    })
                 }
                 else {
                     result.textContent = 'Le format de la réponse est inattendu.';
@@ -164,6 +170,7 @@
                 document.getElementById('result').textContent = 'Erreur : ' + error.message;
                 console.error('Erreur:', error);
             });
+
 
     </script>
 </body>
