@@ -15,6 +15,8 @@
 </head>
 
 <body>
+
+    
     <h1>All Questions</h1>
     <p id="result">Fetching data...</p>
     <pre id="data"></pre>
@@ -58,6 +60,17 @@
             return qcmHtml;
         }
 
+
+        function valider(){
+            let divs = document.getElementsByClassName('question')
+            Array.from(divs).forEach(div => {
+                let checkboxes = div.querySelectorAll('input[type="checkbox"]')
+                checkboxes.forEach(checkbox => {
+                    checkbox.parentElement.classList.add('alert','alert-success')
+                })
+            })
+        }
+
         fetch('http://qcm.test/api.php?action=get_questions&id=14')
             .then(response => response.json())
             .then(data => {
@@ -66,6 +79,7 @@
                 // Vider les éléments existants
                 result.innerHTML = '';
 
+                
                 // Traitement objet
                 if (typeof data === 'object' && data !== null) {
                     let stringified = JSON.stringify(data);
@@ -78,10 +92,10 @@
                     qcmContainer.innerHTML = displayQCM(jsonData);
                     let questionType = document.getElementById('question_type').value;
                     let btn = document.getElementById('btn');
+                    const qcmForm = document.getElementById('qcm');
 
                     // gere type de question
                     if (questionType === 'single' || questionType === 'multi') {
-                        const qcmForm = document.getElementById('qcm');
 
                         qcmForm.addEventListener('change', function (e) {
                             // Si objet checkbox
@@ -118,8 +132,29 @@
                                 let submitButton = this.querySelector('button[type="submit"]');
                                 submitButton.disabled = allQuestionsAnswered;
                             }
+
+                            // si objet button 
+                 
+                            // event clique bouton
+                                //desactive bouton valider
+                                // renomme Continuer
+                            // pour chaque question
+                                //pour chaque checkbox
+                                    // Si bonne réponse
+                                        
+                                    // Si mauvaise réponse
+    
+                                    // Si pas cocher désactive
                         });
+
+                        
                     }
+                    qcmForm.addEventListener('click', function(e){
+                            if (e.target.type === 'submit'){
+                                e.preventDefault()
+                                valider()
+                            }
+                        })
                 }
                 else {
                     result.textContent = 'Le format de la réponse est inattendu.';
