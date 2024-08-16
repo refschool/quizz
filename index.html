@@ -15,8 +15,6 @@
 </head>
 
 <body>
-
-    
     <h1>All Questions</h1>
     <p id="result">Fetching data...</p>
     <pre id="data"></pre>
@@ -25,13 +23,11 @@
     <script>
         function displayQCM(jsonData) {
 
-            let qcmHtml = '<form action="http://qcm.test/api.php?action=send_reponses_users" method="POST" id="qcm">';
+            let qcmHtml = '<form action="#" method="POST" id="qcm">';
             jsonData.forEach(questionObj => {
                 const questionNumber = Object.keys(questionObj)[0];
                 const question = questionObj[questionNumber];
-
                 const types = question.type
-
 
                 qcmHtml += `
             <div class="question">
@@ -60,46 +56,6 @@
             return qcmHtml;
         }
 
-        function valider(){
-            let divs = document.getElementsByClassName('question')
-            Array.from(divs).forEach(div => {
-                // pour chaque question
-                // liste checkboxes
-                let checkboxes = div.querySelectorAll('input[type="checkbox"]')
-                //pour chaque checkbox
-                checkboxes.forEach(checkbox => {
-                    checkbox.disabled = true
-                    checkbox.parentElement.classList.add('alert','alert-success')
-                            // Si bonne réponse
-
-                            // Si mauvaise réponse
-
-                })
-            })
-            
-        }
-
-        function desactiverRenommerBouton(e){
-            if (e.target.type === 'submit'){
-                e.preventDefault()
-                // Desactiver bouton valider
-                btn.disabled = true
-                // Renommer Continuer
-                btn.innerHTML = 'Continuer'
-                valider()
-            }
-        }
-
-        function activeCheckboxUnique(laQuestion, dontEvenement){
-        // Décheck les autres checkbox
-            const checkboxes = laQuestion.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach(function (checkbox) {
-                if (checkbox !== dontEvenement) {
-                    checkbox.checked = false;
-                }
-            });
-        }
-        
         fetch('http://qcm.test/api.php?action=get_questions&id=14')
             .then(response => response.json())
             .then(data => {
@@ -108,39 +64,45 @@
                 // Vider les éléments existants
                 result.innerHTML = '';
 
-                
                 // Traitement objet
                 if (typeof data === 'object' && data !== null) {
-                    let stringified = JSON.stringify(data);
+                    let stringified = JSON.stringify(data);//inutiles
                     const questions = JSON.parse(stringified);
+                    //const reponses = JSON.parse(stringified);
 
                     // Affiche qcm
                     const qcmContainer = document.getElementById('qcm-container');
 
                     let jsonData = JSON.parse(data.reference);
+
                     qcmContainer.innerHTML = displayQCM(jsonData);
-                    let questionType = document.getElementById('question_type').value;
+
+                    let questionType = document.getElementById('question_type').value;//??
                     let btn = document.getElementById('btn');
-                    const qcmForm = document.getElementById('qcm');
 
                     // gere type de question
                     if (questionType === 'single' || questionType === 'multi') {
+                        const qcmForm = document.getElementById('qcm');
 
                         qcmForm.addEventListener('change', function (e) {
-                            //function xxxx
                             // Si objet checkbox
                             if (e.target.type === 'checkbox') {
-                                
-                                let laQuestion = e.target.closest('.question');
+
+                                let questionDiv = e.target.closest('.question');
 
                                 // type de question
-                                let questionType = laQuestion.querySelector('#question_type').value;
+                                let questionType = questionDiv.querySelector('#question_type').value;
 
                                 // Si type de question simple
                                 if (questionType === 'single') {
-                                    activeCheckboxUnique(laQuestion, e.target)
+                                    // Décheck les autres checkbox
+                                    const checkboxes = questionDiv.querySelectorAll('input[type="checkbox"]');
+                                    checkboxes.forEach(function (checkbox) {
+                                        if (checkbox !== e.target) {
+                                            checkbox.checked = false;
+                                        }
+                                    });
                                 }
-
 
                                 // Vérifier si toutes les questions ont au moins une réponse
                                 const allQuestions = this.querySelectorAll('.question');
@@ -153,14 +115,12 @@
                                     }
                                 });
 
-                                btn.disabled = allQuestionsAnswered;
-                            }
 
+                                let submitButton = this.querySelector('button[type="submit"]');
+                                submitButton.disabled = allQuestionsAnswered;
+                            }
                         });
                     }
-                    qcmForm.addEventListener('click', function(e){
-                        desactiverRenommerBouton(e)
-                    })
                 }
                 else {
                     result.textContent = 'Le format de la réponse est inattendu.';
@@ -171,7 +131,11 @@
                 console.error('Erreur:', error);
             });
 
-
+        // gestion bouton valider
+        btn.addEventListener('click', function (event) {
+            event.preventDefault()
+            alert('sent !!')
+        })
     </script>
 </body>
 
