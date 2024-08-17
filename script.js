@@ -1,5 +1,6 @@
 let submitButton = document.querySelector('#btn')
 let globalReference
+let score = 0
 function displayQCM(jsonData) {
 
     let qcmHtml = '<form action="#" method="POST" id="qcm">';
@@ -114,11 +115,7 @@ fetch('http://qcm.test/api.php?action=get_questions&id=14')
 submitButton.addEventListener('click', function (event) {
     event.preventDefault()
 
-    // get ids des input checkés
-    let checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
-    [...checkedBoxes].map(item => {
-        console.log(item.getAttribute('id'))
-    })
+
 
     const correctList = []
     // get ids des bonnes réponses
@@ -129,9 +126,9 @@ submitButton.addEventListener('click', function (event) {
             for (var reponseKey in item[key].content) {
                 if (item[key].content[reponseKey].correct === 1) {
 
-                    let reponse = {}
-                    reponse[reponseKey] = item[key].content[reponseKey]
-                    correctList.push(reponse)
+                    // let reponse = {}
+                    // reponse[reponseKey] = item[key].content[reponseKey]
+                    correctList.push('reponse_' + reponseKey)
                 }
 
             }
@@ -139,6 +136,33 @@ submitButton.addEventListener('click', function (event) {
         }
     })
 
-    console.log(correctList)
+    // get ids des input checkés
+    // balayer toutes les réponses du DOM et regarder si l'id est dans correct list, coché + non == faux, coché + oui == juste
+    let checkedBoxes = document.querySelectorAll('input[type="checkbox"]');
+    [...checkedBoxes].map(item => {
+        const id = item.getAttribute('id')
+        if (correctList.includes(id) && item.checked === true) {
+            item.parentElement.style.backgroundColor = 'green'
+            score++
+        } else if (correctList.includes(id) && item.checked === false) {
+            item.parentElement.style.backgroundColor = 'grey'
+
+        }
+    })
+
+    console.log('Score = ', score)
+
+
+    // correctList.map(reponse => {
+    //     let reponseKey = 'reponse_' + Object.keys(reponse)
+    //     let r = document.getElementById(reponseKey)
+    //     if (r.checked === true) {
+    //         console.log(reponseKey, 'is correct')
+    //     } else {
+    //         console.log(reponseKey, 'is incorrect')
+
+    //     }
+    //     console.log(Object.keys(reponse))
+    // })
 })
 
