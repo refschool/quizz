@@ -19,8 +19,10 @@
     <p id="result">Fetching data...</p>
     <pre id="data"></pre>
     <div id="qcm-container"></div>
-
+    <button class="btn btn-primary mb3" id="btn" disabled> ValiderX </button>
     <script>
+        let submitButton = document.querySelector('#btn')
+
         function displayQCM(jsonData) {
 
             let qcmHtml = '<form action="#" method="POST" id="qcm">';
@@ -50,7 +52,7 @@
             });
 
 
-            qcmHtml += '<button type="submit" class="btn btn-primary mb3" id="btn"  disabled> Valider </button>';
+            //  qcmHtml += '<button type="submit" class="btn btn-primary mb3" id="btn"  disabled> Valider </button>';
             qcmHtml += '</form>';
 
             return qcmHtml;
@@ -78,7 +80,7 @@
                     qcmContainer.innerHTML = displayQCM(jsonData);
 
                     let questionType = document.getElementById('question_type').value;//??
-                    let btn = document.getElementById('btn');
+
 
                     // gere type de question
                     if (questionType === 'single' || questionType === 'multi') {
@@ -116,7 +118,7 @@
                                 });
 
 
-                                let submitButton = this.querySelector('button[type="submit"]');
+                                //let submitButton = this.querySelector('button[type="submit"]');
                                 submitButton.disabled = allQuestionsAnswered;
                             }
                         });
@@ -131,8 +133,8 @@
                 console.error('Erreur:', error);
             });
 
-        // gestion bouton valider
-        btn.addEventListener('click', function (event) {
+        // // gestion bouton valider
+        submitButton.addEventListener('click', function (event) {
             event.preventDefault()
             alert('sent !!')
         })
