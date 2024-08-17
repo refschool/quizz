@@ -1,5 +1,5 @@
 let submitButton = document.querySelector('#btn')
-
+let globalReference
 function displayQCM(jsonData) {
 
     let qcmHtml = '<form action="#" method="POST" id="qcm">';
@@ -29,7 +29,6 @@ function displayQCM(jsonData) {
     });
 
 
-    //  qcmHtml += '<button type="submit" class="btn btn-primary mb3" id="btn"  disabled> Valider </button>';
     qcmHtml += '</form>';
 
     return qcmHtml;
@@ -53,6 +52,7 @@ fetch('http://qcm.test/api.php?action=get_questions&id=14')
             const qcmContainer = document.getElementById('qcm-container');
 
             let jsonData = JSON.parse(data.reference);
+            globalReference = jsonData
 
             qcmContainer.innerHTML = displayQCM(jsonData);
 
@@ -113,6 +113,32 @@ fetch('http://qcm.test/api.php?action=get_questions&id=14')
 // // gestion bouton valider
 submitButton.addEventListener('click', function (event) {
     event.preventDefault()
-    alert('sent !!')
+
+    // get ids des input checkés
+    let checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    [...checkedBoxes].map(item => {
+        console.log(item.getAttribute('id'))
+    })
+
+    const correctList = []
+    // get ids des bonnes réponses
+
+    globalReference.forEach(item => {
+        for (var key in item) {
+            //debugger
+            for (var reponseKey in item[key].content) {
+                if (item[key].content[reponseKey].correct === 1) {
+
+                    let reponse = {}
+                    reponse[reponseKey] = item[key].content[reponseKey]
+                    correctList.push(reponse)
+                }
+
+            }
+            console.log(item[key].content) // on accède aux réponses de chaque question
+        }
+    })
+
+    console.log(correctList)
 })
 
