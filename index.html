@@ -19,16 +19,16 @@
     <p id="result">Fetching data...</p>
     <pre id="data"></pre>
     <div id="qcm-container"></div>
-
+    <button class="btn btn-primary mb3" id="btn" disabled> ValiderX </button>
     <script>
+        let submitButton = document.querySelector('#btn')
+
         function displayQCM(jsonData) {
 
-            let qcmHtml = '<form action="http://qcm.test/api.php?action=send_reponses_users" method="POST" id="qcm">';
+            let qcmHtml = '<form action="#" method="POST" id="qcm">';
             jsonData.forEach(questionObj => {
                 const questionNumber = Object.keys(questionObj)[0];
                 const question = questionObj[questionNumber];
-
-
                 const types = question.type
 
                 qcmHtml += `
@@ -52,7 +52,7 @@
             });
 
 
-            qcmHtml += '<button type="submit" class="btn btn-primary mb3" id="btn"  disabled> Valider </button>';
+            //  qcmHtml += '<button type="submit" class="btn btn-primary mb3" id="btn"  disabled> Valider </button>';
             qcmHtml += '</form>';
 
             return qcmHtml;
@@ -68,16 +68,19 @@
 
                 // Traitement objet
                 if (typeof data === 'object' && data !== null) {
-                    let stringified = JSON.stringify(data);
+                    let stringified = JSON.stringify(data);//inutiles
                     const questions = JSON.parse(stringified);
+                    //const reponses = JSON.parse(stringified);
 
                     // Affiche qcm
                     const qcmContainer = document.getElementById('qcm-container');
 
                     let jsonData = JSON.parse(data.reference);
+
                     qcmContainer.innerHTML = displayQCM(jsonData);
-                    let questionType = document.getElementById('question_type').value;
-                    let btn = document.getElementById('btn');
+
+                    let questionType = document.getElementById('question_type').value;//??
+
 
                     // gere type de question
                     if (questionType === 'single' || questionType === 'multi') {
@@ -86,7 +89,7 @@
                         qcmForm.addEventListener('change', function (e) {
                             // Si objet checkbox
                             if (e.target.type === 'checkbox') {
-                                
+
                                 let questionDiv = e.target.closest('.question');
 
                                 // type de question
@@ -115,7 +118,7 @@
                                 });
 
 
-                                let submitButton = this.querySelector('button[type="submit"]');
+                                //let submitButton = this.querySelector('button[type="submit"]');
                                 submitButton.disabled = allQuestionsAnswered;
                             }
                         });
@@ -130,6 +133,11 @@
                 console.error('Erreur:', error);
             });
 
+        // // gestion bouton valider
+        submitButton.addEventListener('click', function (event) {
+            event.preventDefault()
+            alert('sent !!')
+        })
     </script>
 </body>
 
