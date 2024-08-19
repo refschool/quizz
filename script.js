@@ -35,6 +35,16 @@ function displayQCM(jsonData) {
     return qcmHtml;
 }
 
+function activeCheckboxUnique(question, event){
+    // Décheck les autres checkbox
+    const checkboxes = question.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(function (checkbox) {
+        if (checkbox !== event) {
+            checkbox.checked = false;
+        }
+    });
+}
+
 fetch('http://qcm.test/api.php?action=get_questions&id=14')
     .then(response => response.json())
     .then(data => {
@@ -45,9 +55,6 @@ fetch('http://qcm.test/api.php?action=get_questions&id=14')
 
         // Traitement objet
         if (typeof data === 'object' && data !== null) {
-            let stringified = JSON.stringify(data);//inutiles
-            const questions = JSON.parse(stringified);
-            //const reponses = JSON.parse(stringified);
 
             // Affiche qcm
             const qcmContainer = document.getElementById('qcm-container');
@@ -70,18 +77,10 @@ fetch('http://qcm.test/api.php?action=get_questions&id=14')
 
                         let questionDiv = e.target.closest('.question');
 
-                        // type de question
-                        let questionType = questionDiv.querySelector('#question_type').value;
-
+ 
                         // Si type de question simple
                         if (questionType === 'single') {
-                            // Décheck les autres checkbox
-                            const checkboxes = questionDiv.querySelectorAll('input[type="checkbox"]');
-                            checkboxes.forEach(function (checkbox) {
-                                if (checkbox !== e.target) {
-                                    checkbox.checked = false;
-                                }
-                            });
+                            activeCheckboxUnique(questionDiv, e.target)
                         }
 
                         // Vérifier si toutes les questions ont au moins une réponse
@@ -95,8 +94,6 @@ fetch('http://qcm.test/api.php?action=get_questions&id=14')
                             }
                         });
 
-
-                        //let submitButton = this.querySelector('button[type="submit"]');
                         submitButton.disabled = allQuestionsAnswered;
                     }
                 });
@@ -116,7 +113,7 @@ submitButton.addEventListener('click', function (event) {
     event.preventDefault()
 
 
-
+    console.log(globalReference)
     const correctList = []
     // get ids des bonnes réponses
 
@@ -135,6 +132,7 @@ submitButton.addEventListener('click', function (event) {
             console.log(item[key].content) // on accède aux réponses de chaque question
         }
     })
+    console.log(globalReference)
 
     // get ids des input checkés
     // balayer toutes les réponses du DOM et regarder si l'id est dans correct list, coché + non == faux, coché + oui == juste
