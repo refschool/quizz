@@ -113,7 +113,6 @@ submitButton.addEventListener('click', function (event) {
     event.preventDefault()
 
 
-    console.log(globalReference)
     const correctList = []
     // get ids des bonnes réponses
 
@@ -132,8 +131,7 @@ submitButton.addEventListener('click', function (event) {
             console.log(item[key].content) // on accède aux réponses de chaque question
         }
     })
-    console.log(globalReference)
-
+    
     // get ids des input checkés
     // balayer toutes les réponses du DOM et regarder si l'id est dans correct list, coché + non == faux, coché + oui == juste
     let checkedBoxes = document.querySelectorAll('input[type="checkbox"]');
@@ -162,5 +160,12 @@ submitButton.addEventListener('click', function (event) {
     //     }
     //     console.log(Object.keys(reponse))
     // })
+
+    //desactive checkbox
+    checkedBoxes.forEach(checkbox => 
+        checkbox.disabled = true
+    )
+    //desactive button
+    submitButton.disabled = true
 })
 
