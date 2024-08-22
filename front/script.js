@@ -2,9 +2,9 @@ let submitButton = document.querySelector('#btn')
 let globalReference
 let score = 0
 function displayQCM(jsonData) {
-
-    let qcmHtml = '<form action="#" method="POST" id="qcm">';
+    let qcmHtml
     jsonData.forEach(questionObj => {
+          qcmHtml = '<form action="#" method="POST" id="qcm">';
         const questionNumber = Object.keys(questionObj)[0];
         const question = questionObj[questionNumber];
         const types = question.type
@@ -27,10 +27,10 @@ function displayQCM(jsonData) {
         });
         qcmHtml += `<input type="hidden" id="question_type" value="${types}">`
         qcmHtml += '</div>';
+        qcmHtml += '</form>';
     });
 
 
-    qcmHtml += '</form>';
 
     return qcmHtml;
 }

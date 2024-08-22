@@ -168,4 +168,3 @@ submitButton.addEventListener('click', function (event) {
     //desactive button
     submitButton.disabled = true
 })
-
