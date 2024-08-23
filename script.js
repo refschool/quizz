@@ -35,8 +35,8 @@ function displayQCM(jsonData) {
     return qcmHtml;
 }
 
-function activeCheckboxUnique(question, event){
-    // Décheck les autres checkbox
+// Décheck les autres checkbox
+function activeCheckboxUnique(question, event) {
     const checkboxes = question.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach(function (checkbox) {
         if (checkbox !== event) {
@@ -77,7 +77,7 @@ fetch('http://qcm.test/api.php?action=get_questions&id=14')
 
                         let questionDiv = e.target.closest('.question');
 
- 
+
                         // Si type de question simple
                         if (questionType === 'single') {
                             activeCheckboxUnique(questionDiv, e.target)
@@ -115,7 +115,7 @@ submitButton.addEventListener('click', function (event) {
 
     const correctList = []
     // get ids des bonnes réponses
-
+    debugger
     globalReference.forEach(item => {
         for (var key in item) {
             //debugger
@@ -131,7 +131,7 @@ submitButton.addEventListener('click', function (event) {
             console.log(item[key].content) // on accède aux réponses de chaque question
         }
     })
-    
+
     // get ids des input checkés
     // balayer toutes les réponses du DOM et regarder si l'id est dans correct list, coché + non == faux, coché + oui == juste
     let checkedBoxes = document.querySelectorAll('input[type="checkbox"]');
@@ -162,7 +162,7 @@ submitButton.addEventListener('click', function (event) {
     // })
 
     //desactive checkbox
-    checkedBoxes.forEach(checkbox => 
+    checkedBoxes.forEach(checkbox =>
         checkbox.disabled = true
     )
     //desactive button
