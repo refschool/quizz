@@ -12,7 +12,7 @@ function displayQCM(data) {
         <h2>${data[0].question}</h2>
 `;
     data.forEach(item => {
-        qcmHtml += `<div class="decalage form-check">
+        qcmHtml += `<div class="decalage form-check" style="border: 1px solid transparent;">
         <input class="form-check-input" type="checkbox" name="question[${item.id}]" id="reponse_${item.id}" value="${item.id}">
         <label class="form-check-label" for="reponse_${item.id}">
         ${item.texte}
@@ -104,14 +104,16 @@ submitButton.addEventListener('click', function (event) {
     let checkedBoxes = document.querySelectorAll('input[type="checkbox"]');
 
     [...checkedBoxes].map(item => {
-        debugger
         let found = data.find(el => el.id == item.value)
+
         if (found.correct === 1 && item.checked === true) {
             item.parentElement.style.backgroundColor = 'green'
             score++
         } else if (found.correct === 0 && item.checked === true) {
             item.parentElement.style.backgroundColor = 'grey'
-
+        }
+        else if (found.correct === 1 && item.checked === false) {
+            item.parentElement.style.borderColor = 'green'
         }
     })
     //desactive checkbox
