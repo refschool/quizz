@@ -1,7 +1,7 @@
 let submitButton = document.querySelector('#btn')
 let globalReference
 const result = document.getElementById('result');
-let qcmHtml
+let qcmHtml = ''
 let score
 
 // TODO manque le type de question single ou multi
@@ -48,6 +48,7 @@ fetch(`http://qcm.test/api.php?action=get_single_question&question_hash=${hash}`
         // put data into localStorage
         localStorage.setItem("data", JSON.stringify(data))
         result.innerHTML = ''
+
         const qcmContainer = document.getElementById('qcm-container');
         qcmContainer.innerHTML = displayQCM(data);
 
@@ -110,7 +111,7 @@ submitButton.addEventListener('click', function (event) {
             item.parentElement.style.backgroundColor = 'green'
             score++
         } else if (found.correct === 0 && item.checked === true) {
-            item.parentElement.style.backgroundColor = 'grey'
+            item.parentElement.style.backgroundColor = 'red'
         }
         else if (found.correct === 1 && item.checked === false) {
             item.parentElement.style.borderColor = 'green'
