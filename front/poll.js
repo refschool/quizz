@@ -1,17 +1,25 @@
 let submitButton = document.querySelector('#btn')
+let goToNextButton = document.querySelector('#next')
 let globalReference
 const result = document.getElementById('result');
 let qcmHtml = ''
 let score
+let canGoNext = false
+let currQuestionHash = null
+
+let hashs = '269d96175e89df9fb809b53fd838d8073298b6877c4cbd07311d8dbe41c6a0c3' // single
+let hashm = 'a3685060082d25d11e806571c95bd623666c5ddab9b4b2746102dbae4faffa36' // multi
+
+currQuestionHash = hashs
 
 // TODO manque le type de question single ou multi
-function displayQCM(data) {
+function displayQCM(questionData) {
     qcmHtml += '<form action="#" method="POST" id="qcm">'
     qcmHtml += `
     <div class="question">
-        <h2>${data[0].question}</h2>
+        <h2>${questionData[0].question}</h2>
 `;
-    data.forEach(item => {
+    questionData.forEach(item => {
         qcmHtml += `<div class="decalage form-check" style="border: 1px solid transparent;">
         <input class="form-check-input" type="checkbox" name="question[${item.id}]" id="reponse_${item.id}" value="${item.id}">
         <label class="form-check-label" for="reponse_${item.id}">
@@ -22,7 +30,7 @@ function displayQCM(data) {
 
 
 
-    qcmHtml += `<input type="hidden" id="question_type" value="${data[0].type}">`
+    qcmHtml += `<input type="hidden" id="question_type" value="${questionData[0].type}">`
     qcmHtml += '</div>';
     qcmHtml += '</form>';
     return qcmHtml;
@@ -38,19 +46,33 @@ function activeCheckboxUnique(question, event) {
     });
 }
 
-//let hash = '269d96175e89df9fb809b53fd838d8073298b6877c4cbd07311d8dbe41c6a0c3' // single
-let hash = 'a3685060082d25d11e806571c95bd623666c5ddab9b4b2746102dbae4faffa36' // multi
-fetch(`http://qcm.test/api.php?action=get_single_question&question_hash=${hash}`)
+function goToNextQuestion(nextHash) {
+    // on change l'état de canGoNext
+    canGoNext = false
+    goToNextButton.style.display = 'none'
+
+    // get questionData from localStorage pour avoir le souvenir des question précédentes
+    //    let questionData = JSON.parse(localStorage.getItem("questionData"))
+
+    // vidage de #qcm-container
+    document.getElementById('qcm-container').innerHTML = ''
+
+
+}
+
+
+
+fetch(`http://qcm.test/api.php?action=get_single_question&question_hash=${currQuestionHash}`)
     .then(response => response.json())
-    .then(data => {
-        console.log(data)
-        globalReference = data
-        // put data into localStorage
-        localStorage.setItem("data", JSON.stringify(data))
+    .then(questionData => {
+        console.log('questionData', questionData)
+        globalReference = questionData
+        // put questionData into localStorage
+        localStorage.setItem("questionData", JSON.stringify(questionData))
         result.innerHTML = ''
 
         const qcmContainer = document.getElementById('qcm-container');
-        qcmContainer.innerHTML = displayQCM(data);
+        qcmContainer.innerHTML = displayQCM(questionData);
 
 
         let questionType = document.getElementById('question_type').value;//??
@@ -63,9 +85,7 @@ fetch(`http://qcm.test/api.php?action=get_single_question&question_hash=${hash}`
             qcmForm.addEventListener('change', function (e) {
                 // Si objet checkbox
                 if (e.target.type === 'checkbox') {
-
                     let questionDiv = e.target.closest('.question');
-
 
                     // Si type de question simple
                     if (questionType === 'single') {
@@ -87,8 +107,6 @@ fetch(`http://qcm.test/api.php?action=get_single_question&question_hash=${hash}`
                 }
             });
         }
-
-
     })
     .catch(error => {
         document.getElementById('result').textContent = 'Erreur : ' + error.message;
@@ -97,15 +115,18 @@ fetch(`http://qcm.test/api.php?action=get_single_question&question_hash=${hash}`
 
 // // gestion bouton valider
 submitButton.addEventListener('click', function (event) {
+    // on change l'état de canGoNext
+    canGoNext = true
+    goToNextButton.style.display = 'block'
 
-    // get data from localStorage
-    let data = JSON.parse(localStorage.getItem("data"))
+    // get questionData from localStorage
+    let questionData = JSON.parse(localStorage.getItem("questionData"))
     // get ids des input checkés
     // balayer toutes les réponses du DOM et regarder si l'id est dans correct list, coché + non == faux, coché + oui == juste
     let checkedBoxes = document.querySelectorAll('input[type="checkbox"]');
 
     [...checkedBoxes].map(item => {
-        let found = data.find(el => el.id == item.value)
+        let found = questionData.find(el => el.id == item.value)
 
         if (found.correct === 1 && item.checked === true) {
             item.parentElement.style.backgroundColor = 'green'
@@ -117,11 +138,10 @@ submitButton.addEventListener('click', function (event) {
             item.parentElement.style.borderColor = 'green'
         }
     })
-    //desactive checkbox
-    // checkedBoxes.forEach(checkbox =>
-    //     checkbox.disabled = true
-    // )
-    // //desactive button
-    // submitButton.disabled = true
+
+
+
+
 })
 
+goToNextButton.addEventListener('click', goToNextQuestion)
