@@ -4,7 +4,7 @@ let goToNextButton = document.querySelector('#nextBtn')
 
 let globalReference
 const result = document.getElementById('result');
-let qcmHtml = ''
+
 let score
 let canGoNext = false
 let currQuestionHash = null
@@ -17,46 +17,10 @@ let hashm = 'a3685060082d25d11e806571c95bd623666c5ddab9b4b2746102dbae4faffa36' /
 hashes.push(hashs)
 hashes.push(hashm)
 
-// ArrayIterator // const function are not hoisted XD
-const createArrayIterator = (array) => {
-    let index = 0;
-
-    return {
-        hasNext: () => index < array.length,
-        next: () => array[++index],
-        current: () => array[index]
-    };
-};
-
-
 const iterator = createArrayIterator(hashes)
-
 currQuestionHash = iterator.current()
 
-// TODO manque le type de question single ou multi
-function displayQCM(questionData) {
-    qcmHtml = ''
-    qcmHtml += '<form action="#" method="POST" id="qcm">'
-    qcmHtml += `
-    <div class="question">
-        <h2>${questionData[0].question}</h2>
-`;
-    questionData.forEach(item => {
-        qcmHtml += `<div class="decalage form-check" style="border: 1px solid transparent;">
-        <input class="form-check-input" type="checkbox" name="question[${item.id}]" id="reponse_${item.id}" value="${item.id}">
-        <label class="form-check-label" for="reponse_${item.id}">
-        ${item.texte}
-        </label>
-    </div>`
-    })
 
-
-
-    qcmHtml += `<input type="hidden" id="question_type" value="${questionData[0].type}">`
-    qcmHtml += '</div>';
-    qcmHtml += '</form>';
-    return qcmHtml;
-}
 
 function activeCheckboxUnique(question, event) {
     // Décheck les autres checkbox
@@ -82,7 +46,9 @@ function startQuizz() {
 }
 
 
-function goToNextQuestion(nextHash) {
+function goToNextQuestion() {
+    console.log('goToNextQuestion called', currQuestionHash)
+
     goToNextButton.style.display = 'none'
 
     // get questionData from localStorage pour avoir le souvenir des question précédentes
@@ -90,8 +56,9 @@ function goToNextQuestion(nextHash) {
 
     // vidage de #qcm-container
     document.getElementById('qcm-container').innerHTML = ''
+
     //remplissage avec le form
-    fetch(`http://qcm.test/api.php?action=get_single_question&question_hash=${nextHash}`)
+    fetch(`http://qcm.test/api.php?action=get_single_question&question_hash=${currQuestionHash}`)
         .then(response => response.json())
         .then(questionData => {
             debugger
@@ -144,7 +111,7 @@ function goToNextQuestion(nextHash) {
 
 
 // start or bette call it init()
-startButton.addEventListener('click', startQuizz)
+startButton.addEventListener('click', startQuizz.bind(null, currQuestionHash))
 
 
 // // gestion bouton valider
@@ -178,4 +145,5 @@ submitButton.addEventListener('click', function (event) {
 
 })
 
-goToNextButton.addEventListener('click', goToNextQuestion.bind(null, currQuestionHash))
+
+goToNextButton.addEventListener('click', goToNextQuestion)
