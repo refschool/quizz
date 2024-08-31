@@ -1,19 +1,17 @@
 let startButton = document.querySelector('#startBtn')
-let submitButton = document.querySelector('#btn')
+let validateButton = document.querySelector('#btn')
 let goToNextButton = document.querySelector('#nextBtn')
+let endButton = document.querySelector('#endBtn')
 
 let globalReference
 const result = document.getElementById('result');
 
 let score
-let canGoNext = false
 let currQuestionHash = null
 
 let hashes = []
-
 let hashs = '269d96175e89df9fb809b53fd838d8073298b6877c4cbd07311d8dbe41c6a0c3' // single
 let hashm = 'a3685060082d25d11e806571c95bd623666c5ddab9b4b2746102dbae4faffa36' // multi
-
 hashes.push(hashs)
 hashes.push(hashm)
 
@@ -37,6 +35,7 @@ function startQuizz() {
 
     goToNextQuestion(currQuestionHash)
     startButton.style.display = 'none'
+
     if (iterator.hasNext()) {
         currQuestionHash = iterator.next()
         goToNextButton.style.display = 'block'
@@ -47,9 +46,17 @@ function startQuizz() {
 
 
 function goToNextQuestion() {
-    console.log('goToNextQuestion called', currQuestionHash)
 
-    goToNextButton.style.display = 'none'
+    if (iterator.hasNext()) {
+
+        goToNextButton.style.display = 'block'
+    } else {
+        console.log('fin du poll')
+        goToNextButton.style.display = 'none'
+        endButton.style.display = 'block'
+    }
+
+    console.log('goToNextQuestion called', currQuestionHash)
 
     // get questionData from localStorage pour avoir le souvenir des question précédentes
     //    let questionData = JSON.parse(localStorage.getItem("questionData"))
@@ -61,7 +68,6 @@ function goToNextQuestion() {
     fetch(`http://qcm.test/api.php?action=get_single_question&question_hash=${currQuestionHash}`)
         .then(response => response.json())
         .then(questionData => {
-            debugger
             console.log('questionData', questionData)
             globalReference = questionData
             // put questionData into localStorage
@@ -97,7 +103,7 @@ function goToNextQuestion() {
                             }
                         });
 
-                        submitButton.disabled = allQuestionsAnswered;
+                        validateButton.disabled = allQuestionsAnswered;
                     }
                 });
             }
@@ -115,9 +121,7 @@ startButton.addEventListener('click', startQuizz.bind(null, currQuestionHash))
 
 
 // // gestion bouton valider
-submitButton.addEventListener('click', function (event) {
-    // on change l'état de canGoNext
-    canGoNext = true
+validateButton.addEventListener('click', function (event) {
     goToNextButton.style.display = 'block'
 
     // get questionData from localStorage
