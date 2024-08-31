@@ -16,6 +16,39 @@
 </head>
 
 <body>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 65500;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+    </style>
+    <!-- Modal -->
+    <div class="modal">
+        <div class="modal-content">
+            <h1>Fin du QUIZZ</h1>
+            <p>Merci d'avoir participé à ce quizz</p>
+            <p>Cliquer fermer pour quitter</p>
+            <button class="btn btn-primary mb3" id="closeBtn"> Fermer</button>
+        </div>
+    </div>
+
+
     <div class="container">
 
         <h1>Questions</h1>
@@ -23,7 +56,7 @@
         <pre id="data"></pre>
         <div id="qcm-container"></div>
         <button class="btn btn-primary mb3" id="startBtn"> Commencer</button>
-        <button class="btn btn-primary mb3" id="btn" disabled> Valider</button>
+        <button class="btn btn-primary mb3" id="btn" style="display: none;" disabled> Valider</button>
         <button class="btn btn-primary mb3" id="nextBtn" style="display: none;"> goToNextQuestion</button>
         <button class="btn btn-primary mb3" id="endBtn" style="display: none;"> Terminer</button>
 

@@ -2,6 +2,7 @@ let startButton = document.querySelector('#startBtn')
 let validateButton = document.querySelector('#btn')
 let goToNextButton = document.querySelector('#nextBtn')
 let endButton = document.querySelector('#endBtn')
+const closeBtn = document.querySelector('#closeBtn')
 
 let globalReference
 const result = document.getElementById('result');
@@ -28,17 +29,17 @@ function activeCheckboxUnique(question, event) {
 
 
 function startQuizz() {
-
     startButton.style.display = 'none'
-
     goToNextQuestion()
-
 }
 
 function goToNextQuestion() {
+
     // vidage de #qcm-container
     document.getElementById('qcm-container').innerHTML = ''
     const hash = hashes[currIndex]
+    validateButton.style.display = 'block'
+    goToNextButton.style.display = 'none'
 
     //remplissage avec le form
     fetch(`http://qcm.test/api.php?action=get_single_question&question_hash=${hash}`)
@@ -99,7 +100,17 @@ startButton.addEventListener('click', startQuizz)
 
 // // gestion bouton valider
 validateButton.addEventListener('click', function (event) {
-    goToNextButton.style.display = 'block'
+
+    if (currIndex !== hashes.length - 1) {
+        goToNextButton.style.display = 'block'
+        this.style.display = 'none'
+    } else {
+        goToNextButton.style.display = 'none'
+        this.style.display = 'none'
+        endButton.style.display = 'block'
+    }
+
+
 
     // get questionData from localStorage
     let questionData = JSON.parse(localStorage.getItem("questionData"))
@@ -130,4 +141,14 @@ validateButton.addEventListener('click', function (event) {
 goToNextButton.addEventListener('click', () => {
     currIndex++
     goToNextQuestion()
+
+})
+
+endButton.addEventListener('click', () => {
+    //launch modale
+    document.querySelector('.modal').style.display = 'block'
+})
+
+closeBtn.addEventListener('click', () => {
+    document.querySelector('.modal').style.display = 'none'
 })
