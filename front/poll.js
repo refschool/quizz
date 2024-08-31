@@ -7,17 +7,13 @@ let globalReference
 const result = document.getElementById('result');
 
 let score
-let currQuestionHash = null
 
 let hashes = []
 let hashs = '269d96175e89df9fb809b53fd838d8073298b6877c4cbd07311d8dbe41c6a0c3' // single
 let hashm = 'a3685060082d25d11e806571c95bd623666c5ddab9b4b2746102dbae4faffa36' // multi
 hashes.push(hashs)
 hashes.push(hashm)
-
-const iterator = createArrayIterator(hashes)
-currQuestionHash = iterator.current()
-
+let currIndex = 0;
 
 
 function activeCheckboxUnique(question, event) {
@@ -33,39 +29,19 @@ function activeCheckboxUnique(question, event) {
 
 function startQuizz() {
 
-    goToNextQuestion(currQuestionHash)
     startButton.style.display = 'none'
 
-    if (iterator.hasNext()) {
-        currQuestionHash = iterator.next()
-        goToNextButton.style.display = 'block'
-    } else {
+    goToNextQuestion()
 
-    }
 }
 
-
 function goToNextQuestion() {
-
-    if (iterator.hasNext()) {
-
-        goToNextButton.style.display = 'block'
-    } else {
-        console.log('fin du poll')
-        goToNextButton.style.display = 'none'
-        endButton.style.display = 'block'
-    }
-
-    console.log('goToNextQuestion called', currQuestionHash)
-
-    // get questionData from localStorage pour avoir le souvenir des question précédentes
-    //    let questionData = JSON.parse(localStorage.getItem("questionData"))
-
     // vidage de #qcm-container
     document.getElementById('qcm-container').innerHTML = ''
+    const hash = hashes[currIndex]
 
     //remplissage avec le form
-    fetch(`http://qcm.test/api.php?action=get_single_question&question_hash=${currQuestionHash}`)
+    fetch(`http://qcm.test/api.php?action=get_single_question&question_hash=${hash}`)
         .then(response => response.json())
         .then(questionData => {
             console.log('questionData', questionData)
@@ -113,11 +89,12 @@ function goToNextQuestion() {
             console.error('Erreur:', error);
         });
 
+
 }
 
 
 // start or bette call it init()
-startButton.addEventListener('click', startQuizz.bind(null, currQuestionHash))
+startButton.addEventListener('click', startQuizz)
 
 
 // // gestion bouton valider
@@ -150,4 +127,7 @@ validateButton.addEventListener('click', function (event) {
 })
 
 
-goToNextButton.addEventListener('click', goToNextQuestion)
+goToNextButton.addEventListener('click', () => {
+    currIndex++
+    goToNextQuestion()
+})
