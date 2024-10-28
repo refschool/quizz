@@ -3,7 +3,12 @@
 }
 
 #qcm-container {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    /* shadow */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 form h2 {

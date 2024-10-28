@@ -120,16 +120,16 @@
 
             // différents cas d colorization, checké juste, 
             if (found.correct === 1 && item.checked === true) {
-                item.parentElement.style.backgroundColor = 'green'
+                item.parentElement.style.backgroundColor = '#1BD062'
                 merit = true
                 //checké faux, 
             } else if (found.correct === 0 && item.checked === true) {
-                item.parentElement.style.backgroundColor = 'red'
+                item.parentElement.style.backgroundColor = '#FF114B'
                 merit = false
             }
             //non checké juste
             else if (found.correct === 1 && item.checked === false) {
-                item.parentElement.style.borderColor = 'green'
+                item.parentElement.style.borderColor = '#1BD062'
                 merit = false
             }
         })
