@@ -61,7 +61,9 @@
         <button class="btn btn-primary mb3" id="nextBtn" style="display: none;"> goToNextQuestion</button>
         <button class="btn btn-primary mb3" id="endBtn" style="display: none;"> Terminer</button>
 
+        <div id="bilan"></div>
     </div>
+
 </body>
 <script src="functions.js"></script>
 <!-- <script src="poll.js"></script> -->
@@ -130,6 +132,10 @@
         //update score
         if (merit === true) score++
         console.log("score", score)
+        // stockage de outerHTML 
+        let elem = document.getElementById('qcm-container').outerHTML
+        let data = localStorage.getItem("qcm-container")
+        localStorage.setItem("qcm-container", elem + data)
     })
 
     // bouton vers prochaine question
@@ -143,11 +149,20 @@
     endButton.addEventListener('click', () => {
         //launch modale
         document.querySelector('.modal').style.display = 'block'
+
     })
 
     // bouton pour fermer la modale, TODO : quitter le quizz et revenir à l'accueil
     closeBtn.addEventListener('click', () => {
         document.querySelector('.modal').style.display = 'none'
+
+        // vide la qcm-container
+        document.querySelector('#qcm-container').innerHTML = ''
+
+
+        // réaffichage de qcm-container du localstorage
+        let elem = localStorage.getItem("qcm-container")
+        document.querySelector('#bilan').innerHTML = elem
     })
 
 
