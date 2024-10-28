@@ -16,6 +16,8 @@ function goToNextQuestion() {
         .then(response => response.json())
         .then(questionData => {
             console.log('questionData', questionData)
+            // on met dans la variable pour pouvoir la traiter plus tard car ici on est dans une promise
+            // TODO : mettre dans localstorage pour rejouer les questions après la fin du quizz
             globalReference = questionData
             // put questionData into localStorage
             localStorage.setItem("questionData", JSON.stringify(questionData))
@@ -50,7 +52,7 @@ function goToNextQuestion() {
                             }
                         });
 
-                        validateButton.disabled = allQuestionsAnswered;
+                        validateButton.disabled = allQuestionsAnswered;// bouton désactivé si aucune case cochée
                     }
                 });
             }
