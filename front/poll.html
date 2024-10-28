@@ -43,7 +43,7 @@
         <div class="modal-content">
             <h1>Fin du QUIZZ</h1>
             <p>Merci d'avoir participé à ce quizz, votre score est de <span id="score">0</span> / <span
-                    id="max">0</span></p>
+                    id="maxScore">0</span></p>
             <p>Cliquer fermer pour quitter</p>
             <button class="btn btn-primary mb3" id="closeBtn"> Fermer</button>
         </div>
@@ -155,6 +155,9 @@
     endButton.addEventListener('click', () => {
         //launch modale
         document.querySelector('.modal').style.display = 'block'
+        // populer le modal
+        document.querySelector('#score').innerHTML = score
+        document.querySelector('#maxScore').innerHTML = maxScore
 
     })
 

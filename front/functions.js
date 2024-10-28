@@ -7,12 +7,14 @@ function startQuizz() {
     document.querySelector('#bilan').innerHTML = ''
     // empty scoreBoard
     document.querySelector('#scoreBoard').innerHTML = ''
-    //reset question index
+    //reset question index + score
+    score = 0
     currIndex = 0
     //load the questions
 
     fetch('questions.json').then(response => response.json()).then(data => {
         hashes = data
+        maxScore = hashes.length
         goToNextQuestion()
     })
     //goToNextQuestion()
@@ -99,9 +101,9 @@ function displayQCM(questionData) {
         <h2>${questionData[0].question}</h2>
 `;
     questionData.forEach(item => {
-        qcmHtml += `<div class=" form-check" style="border: 1px solid transparent;border-radius: 5px;padding-top: 10px;padding-bottom: 10px;">
+        qcmHtml += `<div class=" form-check" style="border: 1px solid #ccc;border-radius: 5px;padding-top: 10px;padding-bottom: 10px;">
         <input class="form-check-input" type="checkbox" name="question[${item.id}]" id="reponse_${item.id}" value="${item.id}" style="margin-left: -10px;">
-        <label class="form-check-label" for="reponse_${item.id}">
+        <label class="form-check-label" for="reponse_${item.id}" style="padding-left:10px;">
         ${item.texte}
         </label>
     </div>`
