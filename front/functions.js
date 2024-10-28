@@ -2,6 +2,12 @@ function startQuizz() {
     //empty localStorage item qcm-container
     localStorage.setItem("qcm-container", '')
     startButton.style.display = 'none'
+
+    // empty bilan
+    document.querySelector('#bilan').innerHTML = ''
+    // empty scoreBoard
+    document.querySelector('#scoreBoard').innerHTML = ''
+    // show startButton
     goToNextQuestion()
 }
 
