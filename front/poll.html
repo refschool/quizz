@@ -78,7 +78,7 @@
     let endButton = document.querySelector('#endBtn')
     const closeBtn = document.querySelector('#closeBtn')
 
-    let globalReference // sert à mettre  questionData depuis la promise
+    let globalQuestionDataReference // sert à mettre  questionData depuis la promise
     const result = document.getElementById('result');
 
     let score = 0
@@ -86,11 +86,11 @@
 
     // hash de la question (pas du quizz)
     let hashes = []
-    let hashs = '269d96175e89df9fb809b53fd838d8073298b6877c4cbd07311d8dbe41c6a0c3' // single
-    let hashm = 'a3685060082d25d11e806571c95bd623666c5ddab9b4b2746102dbae4faffa36' // multi
-    hashes.push(hashs)
-    hashes.push(hashm)
+
+
+    // index courant de la question
     let currIndex = 0;
+    // score maximal réalisable
     let maxScore = hashes.length
 
 

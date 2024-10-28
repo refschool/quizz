@@ -1,5 +1,5 @@
 let submitButton = document.querySelector('#btn')
-let globalReference
+let globalQuestionDataReference
 let score = 0
 function displayQCM(jsonData) {
 
@@ -60,7 +60,7 @@ fetch('http://qcm.test/api.php?action=get_questions&id=14')
             const qcmContainer = document.getElementById('qcm-container');
 
             let jsonData = JSON.parse(data.reference);
-            globalReference = jsonData
+            globalQuestionDataReference = jsonData
 
             qcmContainer.innerHTML = displayQCM(jsonData);
 
@@ -116,7 +116,7 @@ submitButton.addEventListener('click', function (event) {
     const correctList = []
     // get ids des bonnes réponses
     debugger
-    globalReference.forEach(item => {
+    globalQuestionDataReference.forEach(item => {
         for (var key in item) {
             //debugger
             for (var reponseKey in item[key].content) {

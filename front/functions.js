@@ -7,8 +7,15 @@ function startQuizz() {
     document.querySelector('#bilan').innerHTML = ''
     // empty scoreBoard
     document.querySelector('#scoreBoard').innerHTML = ''
-    // show startButton
-    goToNextQuestion()
+    //reset question index
+    currIndex = 0
+    //load the questions
+
+    fetch('questions.json').then(response => response.json()).then(data => {
+        hashes = data
+        goToNextQuestion()
+    })
+    //goToNextQuestion()
 }
 
 function goToNextQuestion() {
@@ -26,7 +33,7 @@ function goToNextQuestion() {
             console.log('questionData', questionData)
             // on met dans la variable pour pouvoir la traiter plus tard car ici on est dans une promise
             // TODO : mettre dans localstorage pour rejouer les questions après la fin du quizz
-            globalReference = questionData
+            globalQuestionDataReference = questionData
             // put questionData into localStorage
             localStorage.setItem("questionData", JSON.stringify(questionData))
             result.innerHTML = ''
