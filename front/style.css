@@ -2,6 +2,15 @@
     padding: 20px;
 }
 
+#qcm-container {
+    margin-bottom: 20px;
+}
+
 form h2 {
     font-size: 1.2em;
+}
+
+.decalage {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

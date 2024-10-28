@@ -61,6 +61,7 @@
         <button class="btn btn-primary mb3" id="nextBtn" style="display: none;"> goToNextQuestion</button>
         <button class="btn btn-primary mb3" id="endBtn" style="display: none;"> Terminer</button>
 
+        <h2 id="scoreBoard"></h2>
         <div id="bilan"></div>
     </div>
 
@@ -88,6 +89,7 @@
     hashes.push(hashs)
     hashes.push(hashm)
     let currIndex = 0;
+    let maxScore = hashes.length
 
 
 
@@ -131,7 +133,9 @@
         })
         //update score
         if (merit === true) score++
-        console.log("score", score)
+        //stocke le score
+        localStorage.setItem("score", score)
+
         // stockage de outerHTML 
         let elem = document.getElementById('qcm-container').outerHTML
         let data = localStorage.getItem("qcm-container")
@@ -160,7 +164,9 @@
         document.querySelector('#qcm-container').innerHTML = ''
 
 
-        // réaffichage de qcm-container du localstorage
+        // réaffichage de qcm-container du localstorage + score
+        let score = localStorage.getItem("score")
+        document.querySelector('#scoreBoard').innerHTML = "Score Final : " + score + "/" + maxScore
         let elem = localStorage.getItem("qcm-container")
         document.querySelector('#bilan').innerHTML = elem
     })
