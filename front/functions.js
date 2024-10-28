@@ -29,7 +29,7 @@ function goToNextQuestion() {
     goToNextButton.style.display = 'none'
 
     //remplissage avec le form
-    fetch(`http://qcm.test/api.php?action=get_single_question&question_hash=${hash}`)
+    fetch(`${url}api.php?action=get_single_question&question_hash=${hash}`)
         .then(response => response.json())
         .then(questionData => {
             console.log('questionData', questionData)
