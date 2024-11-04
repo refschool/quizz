@@ -115,6 +115,7 @@
         let merit = false;
 
         // après réponse,on regarde les checkbox et colorize selon justesse de la réponse.
+        // TODO marche pas pour les multi
         [...checkedBoxes].map(item => {
             let found = questionData.find(el => el.id == item.value)
 
@@ -141,7 +142,7 @@
         // stockage de outerHTML 
         let elem = document.getElementById('qcm-container').outerHTML
         let data = localStorage.getItem("qcm-container")
-        localStorage.setItem("qcm-container", elem + data)
+        localStorage.setItem("qcm-container", data + elem)
     })
 
     // bouton vers prochaine question
