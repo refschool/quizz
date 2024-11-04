@@ -1,4 +1,5 @@
-function startQuizz() {
+function startQuizz(resource) {
+
     //empty localStorage item qcm-container
     localStorage.setItem("qcm-container", '')
     startButton.style.display = 'none'
@@ -12,12 +13,12 @@ function startQuizz() {
     currIndex = 0
     //load the questions
 
-    fetch('questions.json').then(response => response.json()).then(data => {
+    // mettre en parametre le url
+    fetch(resource).then(response => response.json()).then(data => {
         hashes = data
         maxScore = hashes.length
         goToNextQuestion()
     })
-    //goToNextQuestion()
 }
 
 function goToNextQuestion() {

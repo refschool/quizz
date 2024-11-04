@@ -77,6 +77,8 @@
     let goToNextButton = document.querySelector('#nextBtn')
     let endButton = document.querySelector('#endBtn')
     const closeBtn = document.querySelector('#closeBtn')
+    // let resource = 'questions.json'
+    let resource = 'http://qcm.test/api.php?action=get_question_array&questionnaire_id=3'
 
     let globalQuestionDataReference // sert à mettre  questionData depuis la promise
     const result = document.getElementById('result');
@@ -92,9 +94,6 @@
     let currIndex = 0;
     // score maximal réalisable
     let maxScore = hashes.length
-
-
-
 
     // // gestion bouton valider
     validateButton.addEventListener('click', function (event) {
@@ -187,7 +186,9 @@
 
 
     // start or better call it init()
-    startButton.addEventListener('click', startQuizz)
+    startButton.addEventListener('click', () => {
+        startQuizz(resource)
+    })
 
 </script>
 
