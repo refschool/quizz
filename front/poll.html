@@ -112,7 +112,7 @@
         // get ids des input checkés
         // balayer toutes les réponses du DOM et regarder si l'id est dans correct list, coché + non == faux, coché + oui == juste
         let checkedBoxes = document.querySelectorAll('input[type="checkbox"]');
-        let merit = false;
+        let badAnswerCount = 0;
 
         // après réponse,on regarde les checkbox et colorize selon justesse de la réponse.
         // TODO marche pas pour les multi
@@ -122,20 +122,20 @@
             // différents cas d colorization, checké juste, 
             if (found.correct === 1 && item.checked === true) {
                 item.parentElement.style.backgroundColor = '#1BD062'
-                merit = true
+
                 //checké faux, 
             } else if (found.correct === 0 && item.checked === true) {
                 item.parentElement.style.backgroundColor = '#FF114B'
-                merit = false
+                badAnswerCount++
             }
             //non checké juste
             else if (found.correct === 1 && item.checked === false) {
                 item.parentElement.style.borderColor = '#1BD062'
-                merit = false
+                badAnswerCount++
             }
         })
         //update score
-        if (merit === true) score++
+        if (badAnswerCount === 0) score++
         //stocke le score
         localStorage.setItem("score", score)
 
