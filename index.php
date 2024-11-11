@@ -69,7 +69,6 @@
 <script src="config.js"></script>
 <script src="functions.js"></script>
 <script>
-
     // programme principal
 
     let startButton = document.querySelector('#startBtn')
@@ -77,8 +76,8 @@
     let goToNextButton = document.querySelector('#nextBtn')
     let endButton = document.querySelector('#endBtn')
     const closeBtn = document.querySelector('#closeBtn')
-    // let resource = 'questions.json'
-    let resource = url + 'api.php?action=get_question_array&questionnaire_id=3'
+    let resource = 'questions.json'
+    // let resource = url + 'api.php?action=get_question_array&questionnaire_id=3'
 
     let globalQuestionDataReference // sert à mettre  questionData depuis la promise
     const result = document.getElementById('result');
@@ -96,7 +95,7 @@
     let maxScore = hashes.length
 
     // // gestion bouton valider
-    validateButton.addEventListener('click', function (event) {
+    validateButton.addEventListener('click', function(event) {
         this.style.display = 'none'
 
         if (currIndex !== hashes.length - 1) {
@@ -180,6 +179,18 @@
         // révéler bouton Commencer
         startButton.style.display = 'block'
 
+        // envoyer requête AJAX
+        fetch('api.php?action=save_score', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                score: score
+            })
+
+        })
+
     })
 
 
@@ -189,7 +200,6 @@
     startButton.addEventListener('click', () => {
         startQuizz(resource)
     })
-
 </script>
 
 </html>
