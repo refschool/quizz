@@ -41,9 +41,14 @@
     <!-- Modal -->
     <div class="modal">
         <div class="modal-content">
-            <h1>Fin du QUIZZ</h1>
+            <h1>Entrez vos coordonnée pour recevoir les résultats</h1>
             <p>Merci d'avoir participé à ce quizz, votre score est de <span id="score">0</span> / <span
                     id="maxScore">0</span></p>
+            <!-- formulaire -->
+            <input type="text" id="email" value="" placeholder="email">
+            <input type="text" id="nom" value="" placeholder="nom">
+            <input type="text" id="prenom" value="" placeholder="prenom">
+            <input type="text" id="phone" value="" placeholder="phone">
             <p>Cliquer fermer pour quitter</p>
             <button class="btn btn-primary mb3" id="closeBtn"> Fermer</button>
         </div>
