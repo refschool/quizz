@@ -14,7 +14,7 @@ $router = match ($action) {
     'save_score' => function () use ($r) {
         // save score to file
         $handle = fopen('scores.json', 'a');
-        fwrite($handle, json_encode($r, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n");
+        fwrite($handle, json_encode($r['coordinates'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n");
         fclose($handle);
 
         // send email
@@ -31,7 +31,8 @@ $router = match ($action) {
         // $mail->addReplyTo('phpmailer@synchromedia.co.uk', 'Information');
         $mail->isHTML(true);  // Set email format to HTML
         $mail->Subject = 'Le résultat de votre test';
-        $mail->Body = 'This is the HTML message body <b>in bold!</b>';
+        // pput style and the outerHTML
+        $mail->Body = $r['html'];
         // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
         $mail->send();
     },

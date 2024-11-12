@@ -168,6 +168,8 @@
         let nom = document.querySelector('#nom')
         let prenom = document.querySelector('#prenom')
         let phone = document.querySelector('#phone')
+        debugger
+        let html = localStorage.getItem("qcm-container")
 
         // envoyer requête AJAX
         fetch('api.php?action=save_score', {
@@ -176,11 +178,15 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                score: score,
-                email: email.value,
-                nom: nom.value,
-                prenom: prenom.value,
-                phone: phone.value
+                coordinates: {
+                    score: score,
+                    email: email.value,
+                    nom: nom.value,
+                    prenom: prenom.value,
+                    phone: phone.value
+                },
+                html: html
+
             })
 
         })
