@@ -60,8 +60,7 @@
     let goToNextButton = document.querySelector('#nextBtn')
     let endButton = document.querySelector('#endBtn')
     const closeBtn = document.querySelector('#closeBtn')
-    //let resource = 'questions.json'
-    let resource = url + 'api.php?action=get_question_array&questionnaire_id=14'
+
 
     let globalQuestionDataReference // sert à mettre  questionData depuis la promise
     const result = document.getElementById('result');
@@ -168,7 +167,7 @@
         let nom = document.querySelector('#nom')
         let prenom = document.querySelector('#prenom')
         let phone = document.querySelector('#phone')
-        debugger
+
         let html = localStorage.getItem("qcm-container")
 
         // envoyer requête AJAX
