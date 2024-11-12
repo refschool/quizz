@@ -60,8 +60,8 @@
     let goToNextButton = document.querySelector('#nextBtn')
     let endButton = document.querySelector('#endBtn')
     const closeBtn = document.querySelector('#closeBtn')
-    let resource = 'questions.json'
-    // let resource = url + 'api.php?action=get_question_array&questionnaire_id=3'
+    //let resource = 'questions.json'
+    let resource = url + 'api.php?action=get_question_array&questionnaire_id=14'
 
     let globalQuestionDataReference // sert à mettre  questionData depuis la promise
     const result = document.getElementById('result');
