@@ -20,7 +20,7 @@
     <!-- Modal -->
     <div class="modal">
         <div class="modal-content">
-            <h1>Entrez vos coordonnée pour recevoir les résultats</h1>
+            <h1>Entrez vos coordonnées pour recevoir les résultats</h1>
             <p>Merci d'avoir participé à ce quizz, votre score est de <span id="score">0</span> / <span
                     id="maxScore">0</span></p>
             <!-- formulaire -->
