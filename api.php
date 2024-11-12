@@ -11,7 +11,7 @@ $router = match ($action) {
     'save_score' => function () use ($r) {
         // save score to file
         $handle = fopen('scores.json', 'a');
-        fwrite($handle, json_encode($r));
+        fwrite($handle, json_encode($r, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n");
         fclose($handle);
     },
     default => function () {

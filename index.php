@@ -16,28 +16,7 @@
 </head>
 
 <body>
-    <style>
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 65500;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.4);
-        }
 
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-    </style>
     <!-- Modal -->
     <div class="modal">
         <div class="modal-content">
@@ -184,6 +163,12 @@
         // révéler bouton Commencer
         startButton.style.display = 'block'
 
+        // Récupération des champs
+        let email = document.querySelector('#email')
+        let nom = document.querySelector('#nom')
+        let prenom = document.querySelector('#prenom')
+        let phone = document.querySelector('#phone')
+
         // envoyer requête AJAX
         fetch('api.php?action=save_score', {
             method: 'POST',
@@ -191,7 +176,11 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                score: score
+                score: score,
+                email: email.value,
+                nom: nom.value,
+                prenom: prenom.value,
+                phone: phone.value
             })
 
         })
