@@ -47,8 +47,10 @@
 
         <h2 id="scoreBoard"></h2>
         <div id="bilan"></div>
+        <div class="qr">
+            <img src="qrcode.png" alt="">
+        </div>
     </div>
-
 </body>
 <script src="config.js"></script>
 <script src="functions.js"></script>
