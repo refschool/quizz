@@ -28,6 +28,7 @@ $router = match ($action) {
         $mail->Password = 'guhnmrdhblypwqyj';
         $mail->setFrom('referencementschool@gmail.com', 'Formapedia');
         $mail->addAddress('yvon.huynh@gmail.com');
+        $mail->addAddress($r['coordinates']['email']);
         // $mail->addReplyTo('phpmailer@synchromedia.co.uk', 'Information');
         $mail->isHTML(true);  // Set email format to HTML
         $mail->Subject = 'Le résultat de votre test';
