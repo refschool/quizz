@@ -24,12 +24,14 @@
             <p>Merci d'avoir participé à ce quizz, votre score est de <span id="score">0</span> / <span
                     id="maxScore">0</span></p>
             <!-- formulaire -->
-            <input type="text" id="email" value="" placeholder="email">
-            <input type="text" id="nom" value="" placeholder="nom">
-            <input type="text" id="prenom" value="" placeholder="prenom">
-            <input type="text" id="phone" value="" placeholder="phone">
-            <p>Cliquer fermer pour quitter</p>
-            <button class="btn btn-primary mb3" id="closeBtn"> Fermer</button>
+            <form id="formulaire" action="#" method="POST">
+                <input type="text" id="email" value="" placeholder="email"><br>
+                <input type="text" id="nom" value="" placeholder="nom"><br>
+                <input type="text" id="prenom" value="" placeholder="prenom"><br>
+                <input type="text" id="phone" value="" placeholder="phone"><br>
+                <p>Cliquer fermer pour quitter</p>
+                <button class="btn btn-primary mb3" id="closeBtn"> Fermer</button>
+            </form>
         </div>
     </div>
 
@@ -62,6 +64,29 @@
     let goToNextButton = document.querySelector('#nextBtn')
     let endButton = document.querySelector('#endBtn')
     const closeBtn = document.querySelector('#closeBtn')
+    // disable close button
+    closeBtn.disabled = true
+
+
+
+
+
+    let formulaire = document.querySelector('#formulaire')
+    formulaire.addEventListener('change', () => {
+        let email = document.querySelector('#email')
+        let nom = document.querySelector('#nom')
+        let prenom = document.querySelector('#prenom')
+        let phone = document.querySelector('#phone')
+
+        if (isValidEmail(email.value) &&
+            nom.value !== '' &&
+            prenom.value !== '' &&
+            phone.value !== '') {
+            closeBtn.disabled = false
+
+        }
+    })
+
 
 
     let globalQuestionDataReference // sert à mettre  questionData depuis la promise
@@ -157,7 +182,7 @@
         let score = localStorage.getItem("score")
         document.querySelector('#scoreBoard').innerHTML = "Score Final : " + score + "/" + maxScore
         let elem = localStorage.getItem("qcm-container")
-        document.querySelector('#bilan').innerHTML = elem
+        //document.querySelector('#bilan').innerHTML = elem
 
         // cacher bouton Terminer
         endButton.style.display = 'none'
@@ -170,6 +195,9 @@
         let prenom = document.querySelector('#prenom')
         let phone = document.querySelector('#phone')
         let html = localStorage.getItem("qcm-container")
+
+
+
 
         // envoyer requête AJAX
         fetch('api.php?action=save_score', {

@@ -117,4 +117,8 @@ function displayQCM(questionData) {
     qcmHtml += '</form>';
     return qcmHtml;
 }
-
+// check email
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
