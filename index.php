@@ -25,10 +25,10 @@
                     id="maxScore">0</span></p>
             <!-- formulaire -->
             <form id="formulaire" action="#" method="POST">
-                <input type="text" id="email" value="" placeholder="email"><br>
-                <input type="text" id="nom" value="" placeholder="nom"><br>
-                <input type="text" id="prenom" value="" placeholder="prenom"><br>
-                <input type="text" id="phone" value="" placeholder="phone"><br>
+                <input type="text" class='form-control' id="email" value="" placeholder="email"><br>
+                <input type="text" class='form-control' id="nom" value="" placeholder="nom"><br>
+                <input type="text" class='form-control' id="prenom" value="" placeholder="prenom"><br>
+                <input type="text" class='form-control' id="phone" value="" placeholder="phone"><br>
                 <p>Cliquer fermer pour quitter</p>
                 <button class="btn btn-primary mb3" id="closeBtn"> Fermer</button>
             </form>
