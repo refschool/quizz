@@ -102,9 +102,9 @@ function displayQCM(questionData) {
         <h2>${questionData[0].question}</h2>
 `;
     questionData.forEach(item => {
-        qcmHtml += `<div class="form-check survol" style="border: 1px solid #ccc;border-radius: 5px;padding-top: 10px;padding-bottom: 10px;cursor:pointer">
-        <input class="form-check-input" type="checkbox" name="question[${item.id}]" id="reponse_${item.id}" value="${item.id}" style="margin-left: -10px;">
-        <label class="form-check-label" for="reponse_${item.id}" style="padding-left:10px;display:block;cursor:inherit">
+        qcmHtml += `<div class="form-check survol choix">
+        <input class="form-check-input" type="checkbox" name="question[${item.id}]" id="reponse_${item.id}" value="${item.id}">
+        <label class="form-check-label" for="reponse_${item.id}">
         ${item.texte}
         </label>
     </div>`
