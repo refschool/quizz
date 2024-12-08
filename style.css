@@ -11,6 +11,22 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.choix{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    cursor:pointer;
+}
+.choix input{
+    margin-left: -10px !important;
+}
+
+.choix>label{
+    padding-left:10px;
+    display:block;
+    cursor:inherit;
+}
 form h2 {
     font-size: 1.2em;
 }

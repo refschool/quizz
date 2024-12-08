@@ -103,11 +103,11 @@
     let currIndex = 0;
     // score maximal réalisable
     let maxScore = hashes.length
-
+    
     // // gestion bouton valider
     validateButton.addEventListener('click', function(event) {
         this.style.display = 'none'
-
+        
         if (currIndex !== hashes.length - 1) {
             goToNextButton.style.display = 'block'
         } else {
