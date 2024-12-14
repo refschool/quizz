@@ -1,14 +1,6 @@
 <?php
 include('config.php');
-include('phpqrcode/qrlib.php');
 
-$hash = $_GET['hash'] ?? '';
-if ($hash !== '') {
-    //get the qr code of the following string
-    $fullurl = $_SERVER['REQUEST_URI'];
-    $fullurl = "http://quizz.glottr.com/?hash=";
-    QRcode::png($fullurl, 'image-qrcode.png');
-}
 ?>
 
 <!DOCTYPE html>
