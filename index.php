@@ -45,13 +45,6 @@ include('config.php');
     <div class="container">
 
         <h1>Questions</h1>
-        <div id="questionnaires">
-
-            <button class="btn btn-primary mb3" id="quizz1" quizz_hash="f31afd2d103a3fdf5a9644bae9fc9e3136be45bd97f1d585187d2f96cfc090dc"> Culture Générale</button>
-            <button class="btn btn-primary mb3" id="quizz2" quizz_hash="924c543b372854417f41ec6676537359e4a931ef2f153dbe2e284b6aefb09ccc"> HTML/CSS</button>
-            <button class="btn btn-primary mb3" id="quizz3" quizz_hash="01e06bfadd5f2fcd732c44339f340ebfad27cc37065156a7cd5464925e21ec27"> Connaissance PHP</button>
-        </div>
-
 
         <p id="result">Fetching data...</p>
         <pre id="data"></pre>
@@ -68,7 +61,9 @@ include('config.php');
     </div>
 </body>
 
-<script type="text/javascript">
+
+
+<script>
     new QRCode(document.getElementById("qrcode"), window.location.href);
 </script>
 <script src="config.js"></script>
@@ -81,19 +76,12 @@ include('config.php');
     let goToNextButton = document.querySelector('#nextBtn')
     let endButton = document.querySelector('#endBtn')
     const closeBtn = document.querySelector('#closeBtn')
-    let questionnaires = document.querySelector('#questionnaires')
     let resource = null
     // disable close button
     closeBtn.disabled = true
 
-    // choisir le quizz qu'on veut
-    questionnaires.addEventListener('click', (event) => {
-        event.target.classList.remove('btn-primary')
-        event.target.classList.add('btn-danger')
-        let questionnaire_hash = event.target.getAttribute('quizz_hash')
-        localStorage.setItem('questionnaire_hash', questionnaire_hash)
-        resource = url + 'api.php?action=get_question_array&questionnaire_hash=' + questionnaire_hash
-    })
+
+
 
 
     let formulaire = document.querySelector('#formulaire')
@@ -251,6 +239,8 @@ include('config.php');
 
     // start or better call it init()
     startButton.addEventListener('click', () => {
+        let hash = new URL(window.location.href).searchParams.get('hash')
+        resource = url + 'api.php?action=get_question_array&questionnaire_hash=' + hash
         startQuizz(resource)
     })
 </script>
