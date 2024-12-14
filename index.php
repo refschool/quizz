@@ -1,8 +1,3 @@
-<?php
-include('config.php');
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -79,10 +74,6 @@ include('config.php');
     let resource = null
     // disable close button
     closeBtn.disabled = true
-
-
-
-
 
     let formulaire = document.querySelector('#formulaire')
     formulaire.addEventListener('change', () => {
