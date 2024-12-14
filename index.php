@@ -1,3 +1,16 @@
+<?php
+include('config.php');
+include('phpqrcode/qrlib.php');
+
+$hash = $_GET['hash'] ?? '';
+if ($hash !== '') {
+    //get the qr code of the following string
+    $fullurl = $_SERVER['REQUEST_URI'];
+    $fullurl = "http://quizz.glottr.com/?hash=";
+    QRcode::png($fullurl, 'image-qrcode.png');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,6 +25,7 @@
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
+    <script src="qrcode/qrcode.js"></script>
     <title>API Response Check</title>
 </head>
 
@@ -57,11 +71,14 @@
 
         <h2 id="scoreBoard"></h2>
         <div id="bilan"></div>
-        <div class="qr">
-            <img src="qrcode.png" alt="">
-        </div>
+        <div id="qrcode"></div>
+
     </div>
 </body>
+
+<script type="text/javascript">
+    new QRCode(document.getElementById("qrcode"), window.location.href);
+</script>
 <script src="config.js"></script>
 <script src="functions.js"></script>
 <script>
