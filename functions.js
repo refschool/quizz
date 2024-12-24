@@ -33,7 +33,7 @@ function goToNextQuestion() {
     fetch(`${url}api.php?action=get_single_question&question_hash=${hash}`)
         .then(response => response.json())
         .then(questionData => {
-            console.log('questionData', questionData)
+
             // on met dans la variable pour pouvoir la traiter plus tard car ici on est dans une promise
             // TODO : mettre dans localstorage pour rejouer les questions après la fin du quizz
             globalQuestionDataReference = questionData
@@ -94,22 +94,24 @@ function activeCheckboxUnique(question, event) {
 }
 
 // TODO manque le type de question single ou multi
-function displayQCM(questionData) {
+function displayQCM(questionDataParam) {
     qcmHtml = ''
     qcmHtml += '<form action="#" method="POST" id="qcm">'
     qcmHtml += `
     <div class="question">
-        <h2>${questionData[0].question}</h2>
+        <h2>${questionDataParam[0].question}</h2>
 `;
     //shuffle the answers
-    console.log('questionData', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-    console.log(shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
+
+    let questionData = shuffle([...questionDataParam])
+    console.log('avant', questionDataParam)
+    console.log('apres', questionData)
 
     questionData.forEach(item => {
         qcmHtml += `<div class="form-check survol choix">
         <input class="form-check-input" type="checkbox" name="question[${item.id}]" id="reponse_${item.id}" value="${item.id}">
         <label class="form-check-label" for="reponse_${item.id}">
-        ${item.texte}XXX
+        ${item.texte}
         </label>
     </div>`
     })
