@@ -101,11 +101,15 @@ function displayQCM(questionData) {
     <div class="question">
         <h2>${questionData[0].question}</h2>
 `;
+    //shuffle the answers
+    console.log('questionData', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    console.log(shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
+
     questionData.forEach(item => {
         qcmHtml += `<div class="form-check survol choix">
         <input class="form-check-input" type="checkbox" name="question[${item.id}]" id="reponse_${item.id}" value="${item.id}">
         <label class="form-check-label" for="reponse_${item.id}">
-        ${item.texte}
+        ${item.texte}XXX
         </label>
     </div>`
     })
@@ -121,4 +125,22 @@ function displayQCM(questionData) {
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+}
+
+function shuffle(array) {
+    let currentIndex = array.length;
+
+    // While there remain elements to shuffle...
+    while (currentIndex != 0) {
+
+        // Pick a remaining element...
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
+    }
+
+    return array
 }
