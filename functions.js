@@ -99,10 +99,10 @@ function displayQCM(questionDataParam) {
     qcmHtml += '<form action="#" method="POST" id="qcm">'
     qcmHtml += `
     <div class="question">
-        <h2>${questionDataParam[0].question}</h2>
+        <div class="question-text">${questionDataParam[0].question}</div>
 `;
-    //shuffle the answers
 
+    //shuffle the answers
     let questionData = shuffle([...questionDataParam])
     console.log('avant', questionDataParam)
     console.log('apres', questionData)
