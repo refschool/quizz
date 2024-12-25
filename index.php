@@ -236,7 +236,7 @@
         let hash = new URL(window.location.href).searchParams.get('hash')
 
         resource = url + 'api.php?action=get_question_array&questionnaire_hash=' + hash
-        resource = url + 'api.php?action=get_question_array&questionnaire_hash=a570ec705a89616d3578c8d8a0fe39401b3888f39ac32c7fe583b56b419cc9de'
+       // resource = url + 'api.php?action=get_question_array&questionnaire_hash=a570ec705a89616d3578c8d8a0fe39401b3888f39ac32c7fe583b56b419cc9de'
         startQuizz(resource)
     })
 </script>
